@@ -117,6 +117,10 @@
                     <label for="signupPassword">Password</label>
                     <asp:TextBox ID="signupPassword" runat="server" CssClass="form-control" TextMode="Password" />
                     <asp:Label ID="signupPasswordError" runat="server" CssClass="error" />
+                    <asp:RegularExpressionValidator ID="signupPasswordRegex" runat="server"
+                        ControlToValidate="signupPassword" CssClass="error"
+                        ValidationExpression="^(?=.*[A-Z])(?=.*\d)(?=.*[@$_!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                        ErrorMessage="Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character." />
                 </div>
                 <div class="form-group">
                     <label for="signupPassword">User Role</label>

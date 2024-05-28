@@ -4,8 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Books Management</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
     <style>
+        .error{
+            color: red;
+        }
         .btn-danger{
             background-color: red;
             color: white;
@@ -124,47 +127,82 @@
 
             <!-- Add Book Modal -->
             <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label for="txtTitle">Title:</label>
-                                <asp:TextBox ID="txtTitle" runat="server" CssClass="form-control"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtAuthor">Author:</label>
-                                <asp:TextBox ID="txtAuthor" runat="server" CssClass="form-control"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtPublisher">Publisher:</label>
-                                <asp:TextBox ID="txtPublisher" runat="server" CssClass="form-control"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtGenre">Genre:</label>
-                                <asp:TextBox ID="txtGenre" runat="server" CssClass="form-control"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtQuantity">Quantity:</label>
-                                <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
-                            </div>
-                            <div class="form-group">
-                                <label for="txtPrice">Price:</label>
-                                <asp:TextBox ID="txtPrice" runat="server" CssClass="form-control"></asp:TextBox>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <asp:Button ID="btnSaveBook" runat="server" Text="Save Book" CssClass="btn btn-primary" OnClick="btnSaveBook_Click" />
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="txtTitle">Title:</label>
+                    <asp:TextBox ID="txtTitle" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="TitleRequired" runat="server"
+                        ControlToValidate="txtTitle" CssClass="error" ErrorMessage="Title is required." />
+                    <asp:RegularExpressionValidator ID="TitleValidator" runat="server"
+                        ControlToValidate="txtTitle" CssClass="error"
+                        ValidationExpression="^[^\d]*$"
+                        ErrorMessage="Title cannot contain numbers." />
+                </div>
+                <div class="form-group">
+                    <label for="txtAuthor">Author:</label>
+                    <asp:TextBox ID="txtAuthor" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="AuthorRequired" runat="server"
+                        ControlToValidate="txtAuthor" CssClass="error" ErrorMessage="Author is required." />
+                    <asp:RegularExpressionValidator ID="AuthorValidator" runat="server"
+                        ControlToValidate="txtAuthor" CssClass="error"
+                        ValidationExpression="^[a-zA-Z\s]+$"
+                        ErrorMessage="Author must be a valid name (letters and spaces only)." />
+                </div>
+                <div class="form-group">
+                    <label for="txtPublisher">Publisher:</label>
+                    <asp:TextBox ID="txtPublisher" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="PublisherRequired" runat="server"
+                        ControlToValidate="txtPublisher" CssClass="error" ErrorMessage="Publisher is required." />
+                    <asp:RegularExpressionValidator ID="PublisherValidator" runat="server"
+                        ControlToValidate="txtPublisher" CssClass="error"
+                        ValidationExpression="^[a-zA-Z\s]+$"
+                        ErrorMessage="Publisher must be a valid name (letters and spaces only)." />
+                </div>
+                <div class="form-group">
+                    <label for="txtGenre">Genre:</label>
+                    <asp:TextBox ID="txtGenre" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="GenreRequired" runat="server"
+                        ControlToValidate="txtGenre" CssClass="error" ErrorMessage="Genre is required." />
+                    <asp:RegularExpressionValidator ID="GenreValidator" runat="server"
+                        ControlToValidate="txtGenre" CssClass="error"
+                        ValidationExpression="^[a-zA-Z\s]+$"
+                        ErrorMessage="Genre must be a valid name (letters and spaces only)." />
+                </div>
+                <div class="form-group">
+                    <label for="txtQuantity">Quantity:</label>
+                    <asp:TextBox ID="txtQuantity" runat="server" CssClass="form-control" TextMode="Number"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="QuantityRequired" runat="server"
+                        ControlToValidate="txtQuantity" CssClass="error" ErrorMessage="Quantity is required." />
+                    <asp:RangeValidator ID="QuantityValidator" runat="server"
+                        ControlToValidate="txtQuantity" CssClass="error" MinimumValue="1" MaximumValue="10000"
+                        Type="Integer" ErrorMessage="Quantity must be a positive integer." />
+                </div>
+                <div class="form-group">
+                    <label for="txtPrice">Price:</label>
+                    <asp:TextBox ID="txtPrice" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:RequiredFieldValidator ID="PriceRequired" runat="server"
+                        ControlToValidate="txtPrice" CssClass="error" ErrorMessage="Price is required." />
+                    <asp:RangeValidator ID="PriceValidator" runat="server"
+                        ControlToValidate="txtPrice" CssClass="error" MinimumValue="0.01" MaximumValue="1000000"
+                        Type="Double" ErrorMessage="Price must be greater than zero." />
                 </div>
             </div>
+            <div class="modal-footer">
+                <asp:Button ID="btnSaveBook" runat="server" Text="Save Book" CssClass="btn btn-primary" OnClick="btnSaveBook_Click" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
             <!-- Edit Book Modal -->
             <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">

@@ -7,6 +7,9 @@
     <title>User Management</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        .error{
+            color: red;
+        }
         .btn-danger{
             background-color: red;
             color: white;
@@ -117,6 +120,10 @@
                                     <label for="txtPassword">Password:</label>
                                     <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" ValidationGroup="AddUserValidation"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtPassword" ErrorMessage="Password is required." ValidationGroup="AddUserValidation" CssClass="text-danger"></asp:RequiredFieldValidator>
+                                    <asp:RegularExpressionValidator ID="txtPasswordRegex" runat="server"
+                                        ControlToValidate="txtPassword" CssClass="error"
+                                        ValidationExpression="^(?=.*[A-Z])(?=.*\d)(?=.*[@$_!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                        ErrorMessage="Password must be at least 8 characters long, contain at least one uppercase letter, one number, and one special character." />
                                 </div>
                                 <div class="form-group">
                                     <label for="ddlRole">Role:</label>
